@@ -1,9 +1,15 @@
 language: rust
+os:
+  - windows
 rust:
-  - stable
-  - beta
   - nightly
-jobs:
-  allow_failures:
-    - rust: nightly
-  fast_finish: true
+scripts:
+  - cargo build --release
+deploy:
+  provider: releases
+  api_key:
+    secure: "$GITHUB_TOKEN"
+  file: "target/release/ssh-cmd-export.exe"
+  skip_cleanup: true
+  on:
+    tags: true
